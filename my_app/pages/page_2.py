@@ -4,8 +4,7 @@ import pandas as pd # read csv, df manipulation
 import time # to simulate a real time data, time loop 
 import plotly.express as px # interactive charts 
 
-st.markdown("# Measurements ❄️")
-st.sidebar.markdown("# Measurements ❄️")
+
 
 # read csv from a github repo
 df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
@@ -16,6 +15,8 @@ st.set_page_config(
     page_icon = '✅',
     layout = 'wide'
 )
+st.markdown("# Measurements ❄️")
+st.sidebar.markdown("# Measurements ❄️")
 
 # dashboard title
 
