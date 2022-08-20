@@ -36,15 +36,15 @@ df = df[df["DAU"] == job_filter]
 # near real-time / live feed simulation
 for seconds in range(200):
 
-    temp = np.maximum(df["Max_Temp"])
-    hum = np.maximum(df["Max_Hum"])
+    temp = np.max(df["MM261"])
+    hum = np.max(df["TP1721"])
 
     # creating KPIs
     #avg_age = np.mean(df["age_new"])
 
-    pres = np.maximum(df["Max_Pres"])
-    meth = np.maximum(df["Max_Meth"])
-
+    pres = np.max(df["BA1723"])
+    meth = np.max(df["RH1722"])
+    
     with placeholder.container():
 
         # create three columns
