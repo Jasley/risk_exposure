@@ -1,71 +1,104 @@
-import streamlit as st # web development
-import numpy as np # np mean, np random 
-import pandas as pd # read csv, df manipulation
-import time # to simulate a real time data, time loop 
-import plotly.express as px # interactive charts 
+import time  # to simulate a real time data, time loop
 
-
-# read csv from a github repo
-df = pd.read_csv("https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv")
-
+import numpy as np  # np mean, np random
+import pandas as pd  # read csv, df manipulation
+import plotly.express as px  # interactive charts
+import streamlit as st  # 🎈 data web app development
 
 st.set_page_config(
-    page_title = 'Real-Time Data Science Dashboard',
-    page_icon = '✅',
-    layout = 'wide'
+    page_title="Real-Time Underground Coal Dashboard",
+    page_icon="✅",
+    layout="wide",
 )
 
+# read csv from a github repo
+dataset_url = "https://raw.githubusercontent.com/Jasley/risk_exposure/main/methane_test.csv"
+
+# read csv from a URL
+@st.experimental_memo
+def get_data() -> pd.DataFrame:
+    return pd.read_csv(dataset_url)
+
+df = get_data()
+
 # dashboard title
+st.title("Real-Time / Underground Coal Dashboard")
 
-st.title("Real-Time / Live Data Science Dashboard")
+# top-level filters
+job_filter = st.selectbox("Select DAU", pd.unique(df["DAU"]))
 
-# top-level filters 
-
-job_filter = st.selectbox("Select the Job", pd.unique(df['job']))
-
-
-# creating a single-element container.
+# creating a single-element container
 placeholder = st.empty()
 
-# dataframe filter 
+# dataframe filter
+df = df[df["DAU"] == job_filter]
 
-df = df[df['job']==job_filter]
-
-# near real-time / live feed simulation 
-
+# near real-time / live feed simulation
 for seconds in range(200):
-#while True: 
-    
-    df['age_new'] = df['age'] * np.random.choice(range(1,5))
-    df['balance_new'] = df['balance'] * np.random.choice(range(1,5))
 
-    # creating KPIs 
-    avg_age = np.mean(df['age_new']) 
+    temp = np.max(df["Max_Temp"])
+    hum = np.max(df["Max_Hum"])
 
-    count_married = int(df[(df["marital"]=='married')]['marital'].count() + np.random.choice(range(1,30)))
-    
-    balance = np.mean(df['balance_new'])
+    # creating KPIs
+    #avg_age = np.mean(df["age_new"])
+
+    pres = np.max(df["Max_Pres"])
+    meth = np.max(df["Max_Meth"])
 
     with placeholder.container():
+
         # create three columns
-        kpi1, kpi2, kpi3 = st.columns(3)
+        kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
-        # fill in those three columns with respective metrics or KPIs 
-        kpi1.metric(label="Age ⏳", value=round(avg_age), delta= round(avg_age) - 10)
-        kpi2.metric(label="Married Count 💍", value= int(count_married), delta= - 10 + count_married)
-        kpi3.metric(label="A/C Balance ＄", value= f"$ {round(balance,2)} ", delta= - round(balance/count_married) * 100)
+        # fill in those four columns with respective metrics or KPIs
+        kpi1.metric(
+            label="Methane ⏳",
+            value=round(meth),
+            delta=round(meth) + 5,
+        )
+        
+        kpi2.metric(
+            label="Temperature 💍",
+            value=round(temp),
+            delta=round(temp) + 5,
+        )
+        
+        kpi3.metric(
+            label="Pressure ＄",
+            value=round(pres),
+            delta=round(pres) + 5,
+        )
 
-        # create two columns for charts 
+        kpi4.metric(
+            label="Humidity ＄",
+            value=round(hum),
+            delta=round(hum) + 5,
+        )
 
-        fig_col1, fig_col2 = st.columns(2)
+        # create two columns for charts
+        fig_col1, fig_col2, fig_col3, fig_col4 = st.columns(4)
         with fig_col1:
-            st.markdown("### First Chart")
-            fig = px.density_heatmap(data_frame=df, y = 'age_new', x = 'marital')
+            #st.markdown("### Methane Reading")
+            fig = px.line(
+                data_frame=df, y="MM261", x="date_time",title='Methane over Period'
+            )
             st.write(fig)
+            
         with fig_col2:
-            st.markdown("### Second Chart")
-            fig2 = px.histogram(data_frame = df, x = 'age_new')
+            #st.markdown("### Second Chart")
+            fig2 = px.line(data_frame=df, y="TP1721", x="date_time",title='Temperature over Period')
             st.write(fig2)
+
+        with fig_col3:
+            #st.markdown("### Second Chart")
+            fig3 = px.line(data_frame=df, y="BA1723", x="date_time",title='Pressure over Period')
+            st.write(fig3)
+
+        with fig_col4:
+            #st.markdown("### Second Chart")
+            fig4 = px.line(data_frame=df, y="RH1722", x="date_time",title='Humidity over Period')
+            st.write(fig4)
+
         st.markdown("### Detailed Data View")
         st.dataframe(df)
         time.sleep(1)
