@@ -7,10 +7,10 @@ import streamlit as st  # 🎈 data web app development
 
 st.set_page_config(
     page_title="Real-Time Underground Coal Dashboard",
-    page_icon="✅",
+    page_icon="📊",
     layout="wide",
 )
-st.markdown("# Measurements")
+# st.markdown("# Measurements")
 st.sidebar.header("Measurements")
 
 # read csv from a github repo
