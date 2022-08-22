@@ -11,7 +11,7 @@ def run():
         page_icon="👋",
     )
 
-    st.write("# Welcome to Methane Predictor Page! 👋")
+    st.write("# Welcome to Methane Predictor Page!")
 
     st.sidebar.success("Select a demo above.")
 
