@@ -54,27 +54,27 @@ for seconds in range(200):
 
         # fill in those four columns with respective metrics or KPIs
         kpi1.metric(
-            label="Methane ⏳",
+            label="Methane",
             value=round(meth),
-            delta=round(meth) + 5,
+            delta=round(meth) + 0.5,
         )
         
         kpi2.metric(
-            label="Temperature 💍",
+            label="Temperature",
             value=round(temp),
-            delta=round(temp) + 5,
+            delta=round(temp) + 1,
         )
         
         kpi3.metric(
             label="Pressure ＄",
             value=round(pres),
-            delta=round(pres) + 5,
+            delta=round(pres) + 20,
         )
 
         kpi4.metric(
             label="Humidity ＄",
             value=round(hum),
-            delta=round(hum) + 5,
+            delta=round(hum) + 3,
         )
 
         # create two columns for charts
